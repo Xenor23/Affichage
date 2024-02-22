@@ -1,0 +1,29 @@
+name: Gestion de contenu d'un site php, utilisant Mysql DB sur Docker et Ubuntu
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout du repository
+    - name: Checkout du repository
+      uses: actions/checkout@v2
+
+    # Build et run du Docker containers
+    - name: Build et run du Docker containers
+      run: |
+        docker-compose up --build -d
+      working-directory: ./project
+
+    # Déploiement
+    - name: Déploiement
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.PATH }}
+        publish_dir: ./project
